@@ -1,21 +1,27 @@
+import { ActionButton } from "@/components/ActionButton";
+import { FocusButton } from "@/components/FocusButton";
+import { Timer } from "@/components/Timer";
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const pomodoro = [
   {
     id: 'focus',
     initialValue: 25,
-    image: require("./pomodoro.png")
+    image: require("./pomodoro.png"),
+    display: 'Foco',
   },
   {
     id: 'short',
     initialValue: 5,
-    image: require("./short.png")
+    image: require("./short.png"),
+    display: 'Pausa curta',
   },
   {
     id: 'long',
     initialValue: 15,
-    image: require("./long.png")
+    image: require("./long.png"),
+    display: 'Pausa longa',
   }
 ]
 
@@ -31,22 +37,12 @@ export default function Index() {
       />
       <View style={styles.actions}>
         <View style={styles.context}>
-          <Pressable style={styles.contextButtonActive}>
-            <Text style={styles.contextButtonText}>Foco</Text>
-          </Pressable>
-          <Pressable>
-            <Text style={styles.contextButtonText}>Pausa curta</Text>
-          </Pressable>
-          <Pressable>
-            <Text style={styles.contextButtonText}>Pausa longa</Text>
-          </Pressable>
+          {pomodoro.map((p) => (
+            <ActionButton key={p.id} pomodoro={p} timerType={timerType} setTimerType={setTimerType} />
+          ))}
         </View>
-        <Text style={styles.timer}>
-          {new Date(timerType.initialValue * 1000).toLocaleTimeString('pt-BR', { minute: '2-digit', second: '2-digit' })}
-        </Text>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Começar</Text>
-        </Pressable>
+        <Timer totalSeconds={timerType.initialValue} />
+        <FocusButton />
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>
@@ -81,31 +77,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
-  contextButtonActive: {
-    backgroundColor: '#144480',
-    borderRadius: 8
-  },
-  contextButtonText: {
-    fontSize: 12.5,
-    color: "#FFFFFF",
-    padding: 8,
-  },
   timer: {
     fontSize: 54,
     color: "#FFFFFF",
     fontWeight: "bold",
     textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#B872FF",
-    borderRadius: 32,
-    padding: 8,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#021123",
-    fontSize: 18,
-    fontWeight: "bold",
   },
   footer: {
     width: "80%",
