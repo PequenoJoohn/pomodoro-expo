@@ -1,4 +1,3 @@
-import { Dispatch } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 interface Pomodoro {
@@ -10,14 +9,14 @@ interface Pomodoro {
 
 interface ActionButtonProps {
     timerType: Pomodoro;
-    setTimerType: Dispatch<Pomodoro>;
     pomodoro: Pomodoro;
+    onPress: () => void;
 }
 
-export const ActionButton = ({ timerType, setTimerType, pomodoro }: ActionButtonProps) => {
+export const ActionButton = ({ timerType, pomodoro, onPress }: ActionButtonProps) => {
     return (
         <Pressable
-            onPress={() => setTimerType(pomodoro)}
+            onPress={onPress}
             style={timerType.id === pomodoro.id ? styles.contextButtonActive : null} key={pomodoro.id}>
             <Text style={styles.contextButtonText}>{pomodoro.display}</Text>
         </Pressable>

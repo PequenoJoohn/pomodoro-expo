@@ -1,7 +1,7 @@
 import { ActionButton } from "@/components/ActionButton";
 import { FocusButton } from "@/components/FocusButton";
 import { Timer } from "@/components/Timer";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 const pomodoro = [
@@ -27,7 +27,46 @@ const pomodoro = [
 
 export default function Index() {
 
-  const [timerType, setTimerType] = useState(pomodoro[0])
+  const [timerType, setTimerType] = useState(pomodoro[0]);
+  const timerRef = useRef<number>(null);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [seconds, setSeconds] = useState(pomodoro[0].initialValue);
+
+  const clear = () => {
+    if (timerRef.current != null) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+      setTimerRunning(false)
+    }
+  }
+
+  const toggleTimerType = (newTimerType: { id: string; initialValue: number; image: any; display: string; }) => {
+    setTimerType(newTimerType)
+    setSeconds(newTimerType.initialValue)
+    clear()
+  }
+
+  const toggleTimer = () => {
+    if (timerRef.current) {
+      clear()
+      return
+    }
+
+    setTimerRunning(true)
+
+    const id = setInterval(() => {
+      setSeconds((oldState) => {
+        if (oldState === 0) {
+          clear()
+          return timerType.initialValue
+        }
+        return oldState - 1
+
+      })
+      console.log('timer')
+    }, 1000);
+    timerRef.current = id
+  }
 
   return (
     <View style={styles.container}>
@@ -38,11 +77,13 @@ export default function Index() {
       <View style={styles.actions}>
         <View style={styles.context}>
           {pomodoro.map((p) => (
-            <ActionButton key={p.id} pomodoro={p} timerType={timerType} setTimerType={setTimerType} />
+            <ActionButton onPress={() => toggleTimerType(p)} key={p.id} pomodoro={p} timerType={timerType} />
           ))}
         </View>
-        <Timer totalSeconds={timerType.initialValue} />
-        <FocusButton />
+        <Timer totalSeconds={seconds} />
+        <FocusButton
+          title={timerRunning ? 'Pausar' : 'Começar'}
+          onPress={toggleTimer} />
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>

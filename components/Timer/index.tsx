@@ -7,7 +7,7 @@ interface totalSecondsProps {
 export const Timer = ({ totalSeconds }: totalSecondsProps) => {
 
     const date = new Date(totalSeconds * 1000);
-    const options = { minute: '2-digit', second: '2-digit' }
+    const options: {} = { minute: '2-digit', second: '2-digit' }
 
     return (
         <Text style={styles.timer}>
