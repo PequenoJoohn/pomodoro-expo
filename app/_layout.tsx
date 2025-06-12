@@ -5,7 +5,7 @@ export default function StackLayout() {
         <Stack>
             <Stack.Screen
                 name='pomodoro'
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
         </Stack >
     )
