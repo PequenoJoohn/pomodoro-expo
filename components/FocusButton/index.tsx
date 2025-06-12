@@ -1,9 +1,9 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 
 interface FocusButtonProps {
-    onPress: () => void;
+    onPress?: () => void;
     title: string;
-    icon: React.JSX.Element;
+    icon?: React.JSX.Element;
 }
 
 export const FocusButton = ({ onPress, title, icon }: FocusButtonProps) => {
