@@ -26,7 +26,7 @@ export default function AddTask() {
 
     addTask(description);
     setDescription("");
-    router.navigate('/tasks')
+    router.navigate("/tasks");
   };
 
   return (
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     gap: 32,
   },
   label: {
-    fontWeight: "600",
+    fontWeight: 600,
     fontSize: 18,
   },
   input: {
